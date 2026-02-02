@@ -1,4 +1,4 @@
-package com.ml.quaterion.facenetdetection.model
+    package com.ml.quaterion.facenetdetection.model
 
 class Models {
 
@@ -39,8 +39,14 @@ class Models {
             512 ,
             160
         )
-
-
+        
+        val MOBILE_FACENET = ModelInfo(
+            "MobileFaceNet", 
+            "mobilefacenet.tflite", // The name of your file in assets
+            112,                    // MobileFaceNet uses 112x112
+            128                     // It spits out 128 numbers
+        )
+        
     }
 
 }
