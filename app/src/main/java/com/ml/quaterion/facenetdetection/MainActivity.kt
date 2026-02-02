@@ -81,7 +81,8 @@ class MainActivity : AppCompatActivity() {
     // You may the change the models here.
     // Use the model configs in Models.kt
     // Default is Models.FACENET ; Quantized models are faster
-    private val modelInfo = Models.FACENET
+    // 2/2/2026: Changed model to MOBILE_FACENET
+    private val modelInfo = Models.MOBILE_FACENET
 
     // Camera Facing
     private val cameraFacing = CameraSelector.LENS_FACING_BACK
