@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enroll New Student"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginBottom="15dp"/>
+
+    <!-- MAKE SURE THESE IDs MATCH THE KOTLIN CODE -->
+    <EditText android:id="@+id/etLastName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="LAST NAME" android:textAllCaps="true"/>
+    <EditText android:id="@+id/etFirstName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="FIRST NAME" android:textAllCaps="true"/>
+    <EditText android:id="@+id/etMI" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="M.I." android:maxLength="1" android:textAllCaps="true"/>
+    <EditText android:id="@+id/etSection" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="GRADE &amp; SECTION" android:textAllCaps="true"/>
+
+</LinearLayout>

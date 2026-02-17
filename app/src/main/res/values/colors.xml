@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Change both of these to your Light Green -->
+    <color name="colorPrimary">#90EE90</color>
+    <color name="colorPrimaryDark">#76C476</color> <!-- A slightly darker green -->
+    <color name="colorAccent">#90EE90</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+</resources>
