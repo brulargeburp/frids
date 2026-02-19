@@ -101,6 +101,8 @@ class MainActivity : AppCompatActivity() {
 
     // Camera Facing
     private var cameraFacing = CameraSelector.LENS_FACING_BACK
+    private val PREF_URL_KEY = "base_url_gsheets"
+    private val DEFAULT_URL = "https://script.google.com/macros/s/PASTE_YOUR_ID_HERE/exec"
 
     // <---------------------------------------------------------------->
 
@@ -242,7 +244,8 @@ class MainActivity : AppCompatActivity() {
             val options = arrayOf(
                 "Register New Student",
                 "Manage Enrolled Students",
-                "View/Change Image Directory", // Added this
+                "Edit Server URL", // NEW OPTION
+                "View/Change Image Directory",
                 "QR Fallback (AppSheet)",
                 "Cancel"
             )
@@ -253,9 +256,10 @@ class MainActivity : AppCompatActivity() {
                 when (which) {
                     0 -> showRegistrationDialog()
                     1 -> showStudentListDialog() // Ensure this function exists below
-                    2 -> showDirectoryInfo()      // NEW FUNCTION
-                    3 -> launchQRScannerFallback()
-                    4 -> dialog.dismiss()
+                    2 -> showEditUrlDialog()
+                    3 -> showDirectoryInfo()      // NEW FUNCTION
+                    4 -> launchQRScannerFallback()
+                    5 -> dialog.dismiss()
                 }
             }
             builder.show()
@@ -483,13 +487,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logToGSheets(name: String, section: String, action: String) {
-        val baseUrl = "https://script.google.com/macros/s/AKfycbz2AJxCGP_MN1uIE_pkg8nLvQu28V_DpbwkNqcetzYyeR6r2jTywKFzMiKU5IDl5p7e/exec"
+        val baseUrl = sharedPreferences.getString(PREF_URL_KEY, DEFAULT_URL) ?: DEFAULT_URL
 
         // ENCODE the name and section to handle spaces/special characters
         val encodedName = URLEncoder.encode(name, "UTF-8")
         val encodedSection = URLEncoder.encode(section, "UTF-8")
 
         val url = "$baseUrl?action=$action&name=$encodedName&section=$encodedSection"
+
+        Log.d("D-PASS", "Connecting to: $url")
 
         val request = StringRequest(com.android.volley.Request.Method.GET, url,
             { response ->
@@ -748,6 +754,30 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this@MainActivity, "Enrollment Complete!", Toast.LENGTH_LONG).show()
             refreshAI() // Reload the brain with all the new photos
         }
+    }
+
+    private fun showEditUrlDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Edit Apps Script URL")
+
+        // 1. Create an EditText to input the URL
+        val input = EditText(this)
+        val currentUrl = sharedPreferences.getString(PREF_URL_KEY, DEFAULT_URL)
+        input.setText(currentUrl)
+        builder.setView(input)
+
+        builder.setPositiveButton("Save") { _, _ ->
+            val newUrl = input.text.toString().trim()
+            if (newUrl.isNotEmpty() && newUrl.contains("exec")) {
+                // 2. Save it to the phone's memory
+                sharedPreferences.edit().putString(PREF_URL_KEY, newUrl).apply()
+                Toast.makeText(this, "URL Updated!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Invalid URL format!", Toast.LENGTH_SHORT).show()
+            }
+        }
+        builder.setNegativeButton("Cancel", null)
+        builder.show()
     }
 
 }
